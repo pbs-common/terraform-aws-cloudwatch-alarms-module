@@ -21,3 +21,9 @@ variable "queue_name" {
   default     = null
   type        = string
 }
+
+variable "mediatailor_configuration_name" {
+  description = "Name of the MediaTailor configuration being monitored"
+  default     = null
+  type        = string
+}
