@@ -16,10 +16,15 @@ locals {
     StreamName = var.kinesis_stream
   } : {}
 
+  mediatailor_configuration_dimension = var.mediatailor_configuration_name != null ? {
+    ConfigurationName = var.mediatailor_configuration_name
+  } : {}
+
   dimensions = merge(
     local.state_machine_dimension,
     local.lambda_function_dimension,
     local.kinesis_stream_dimension,
+    local.mediatailor_configuration_dimension,
   )
 
   alarm_actions = var.alarm_actions != null ? var.alarm_actions : var.sns_arn != null ? [var.sns_arn] : null
@@ -27,6 +32,7 @@ locals {
   use_metric_query = contains([
     "AWS/States",
     "AWS/SES",
+    "AWS/MediaTailor",
   ], var.namespace)
 
   is_error_rate_alarm = var.lambda_function != null || var.kinesis_stream != null
