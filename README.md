@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.0.2
+github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -24,7 +24,7 @@ Integrate this module like so:
 
 ```hcl
 module "alarm" {
-  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.0.2"
+  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z"
 
   namespace       = "AWS/Lambda"
   lambda_function = aws_lambda_function.lambda.id
@@ -43,7 +43,7 @@ module "alarm" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.0.2`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -96,6 +96,7 @@ No modules.
 | <a name="input_evaluation_periods"></a> [evaluation\_periods](#input\_evaluation\_periods) | The number of periods over which data is compared to the specified threshold. | `number` | `1` | no |
 | <a name="input_kinesis_stream"></a> [kinesis\_stream](#input\_kinesis\_stream) | Name of the Kinesis stream being monitored | `string` | `null` | no |
 | <a name="input_lambda_function"></a> [lambda\_function](#input\_lambda\_function) | Name of the Lambda function being monitored | `string` | `null` | no |
+| <a name="input_mediatailor_configuration_name"></a> [mediatailor\_configuration\_name](#input\_mediatailor\_configuration\_name) | Name of the MediaTailor configuration being monitored | `string` | `null` | no |
 | <a name="input_metric_name"></a> [metric\_name](#input\_metric\_name) | Metric to use for this alarm. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the alarm being created. Defaults to product if null. | `string` | `null` | no |
 | <a name="input_period"></a> [period](#input\_period) | The period in seconds over which the specified statistic is applied. | `number` | `60` | no |
