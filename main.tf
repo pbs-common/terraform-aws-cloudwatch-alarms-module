@@ -100,3 +100,17 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
 
   tags = local.tags
 }
+
+resource "aws_cloudwatch_log_metric_filter" "filter" {
+  count          = var.log_metric_filter != null ? 1 : 0
+  name           = var.log_metric_filter.name
+  pattern        = var.log_metric_filter.pattern
+  log_group_name = var.log_metric_filter.log_group_name
+
+  metric_transformation {
+    default_value = var.log_metric_filter.default_value
+    name          = local.metric_name
+    namespace     = var.namespace
+    value         = var.log_metric_filter.value
+  }
+}
