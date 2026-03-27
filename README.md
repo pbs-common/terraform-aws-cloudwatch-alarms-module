@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.0.3
+github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -24,7 +24,7 @@ Integrate this module like so:
 
 ```hcl
 module "alarm" {
-  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.0.3"
+  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z"
 
   namespace       = "AWS/Lambda"
   lambda_function = aws_lambda_function.lambda.id
@@ -43,7 +43,7 @@ module "alarm" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.0.3`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -76,6 +76,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_log_metric_filter.filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
 | [aws_cloudwatch_metric_alarm.alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_default_tags.common_tags](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/default_tags) | data source |
 
@@ -84,7 +85,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment (sharedtools, dev, staging, qa, prod) | `string` | n/a | yes |
-| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace for the alarm's associated metric. See docs for the list of namespaces. See docs for supported metrics. | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | The namespace for the alarm's associated metric. Supports AWS managed namespaces (e.g. AWS/Lambda, AWS/Kinesis, AWS/States, AWS/SES, AWS/SQS, AWS/MediaTailor) and custom application namespaces. | `string` | n/a | yes |
 | <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
@@ -96,6 +97,7 @@ No modules.
 | <a name="input_evaluation_periods"></a> [evaluation\_periods](#input\_evaluation\_periods) | The number of periods over which data is compared to the specified threshold. | `number` | `1` | no |
 | <a name="input_kinesis_stream"></a> [kinesis\_stream](#input\_kinesis\_stream) | Name of the Kinesis stream being monitored | `string` | `null` | no |
 | <a name="input_lambda_function"></a> [lambda\_function](#input\_lambda\_function) | Name of the Lambda function being monitored | `string` | `null` | no |
+| <a name="input_log_metric_filter"></a> [log\_metric\_filter](#input\_log\_metric\_filter) | Configuration for an optional aws\_cloudwatch\_log\_metric\_filter to create alongside the alarm. When set, a log metric filter is deployed that feeds the named metric into the alarm. | <pre>object({<br/>    name           = string<br/>    pattern        = string<br/>    log_group_name = string<br/>    default_value  = optional(string, "0")<br/>    value          = optional(string, "1")<br/>  })</pre> | `null` | no |
 | <a name="input_mediatailor_configuration_name"></a> [mediatailor\_configuration\_name](#input\_mediatailor\_configuration\_name) | Name of the MediaTailor configuration being monitored | `string` | `null` | no |
 | <a name="input_metric_name"></a> [metric\_name](#input\_metric\_name) | Metric to use for this alarm. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the alarm being created. Defaults to product if null. | `string` | `null` | no |

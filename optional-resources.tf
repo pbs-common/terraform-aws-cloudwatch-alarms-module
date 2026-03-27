@@ -27,3 +27,15 @@ variable "mediatailor_configuration_name" {
   default     = null
   type        = string
 }
+
+variable "log_metric_filter" {
+  description = "Configuration for an optional aws_cloudwatch_log_metric_filter to create alongside the alarm. When set, a log metric filter is deployed that feeds the named metric into the alarm."
+  default     = null
+  type = object({
+    name           = string
+    pattern        = string
+    log_group_name = string
+    default_value  = optional(string, "0")
+    value          = optional(string, "1")
+  })
+}

@@ -29,11 +29,7 @@ locals {
 
   alarm_actions = var.alarm_actions != null ? var.alarm_actions : var.sns_arn != null ? [var.sns_arn] : null
 
-  use_metric_query = contains([
-    "AWS/States",
-    "AWS/SES",
-    "AWS/MediaTailor",
-  ], var.namespace)
+  use_metric_query = !local.is_error_rate_alarm && !local.is_growth_alarm
 
   is_error_rate_alarm = var.lambda_function != null || var.kinesis_stream != null
   is_growth_alarm     = var.queue_name != null
