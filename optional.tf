@@ -83,3 +83,15 @@ variable "alarm_actions" {
   type        = set(string)
   default     = null
 }
+
+variable "ok_actions" {
+  description = "Actions to take when the CloudWatch Alarm transitions to the OK state. Set explicitly to opt in to OK notifications."
+  type        = set(string)
+  default     = null
+}
+
+variable "dimensions" {
+  description = "Arbitrary dimensions for the alarm's associated metric, for resource types the module does not model explicitly. Merged with (and takes precedence over) dimensions derived from the resource specific variables."
+  type        = map(string)
+  default     = null
+}

@@ -9,6 +9,7 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
   treat_missing_data  = var.treat_missing_data
 
   alarm_actions = local.alarm_actions
+  ok_actions    = var.ok_actions
 
   namespace   = local.alarm_namespace
   period      = local.alarm_period

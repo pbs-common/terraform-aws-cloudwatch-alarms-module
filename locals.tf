@@ -20,11 +20,14 @@ locals {
     ConfigurationName = var.mediatailor_configuration_name
   } : {}
 
+  custom_dimensions = var.dimensions != null ? var.dimensions : {}
+
   dimensions = merge(
     local.state_machine_dimension,
     local.lambda_function_dimension,
     local.kinesis_stream_dimension,
     local.mediatailor_configuration_dimension,
+    local.custom_dimensions,
   )
 
   alarm_actions = var.alarm_actions != null ? var.alarm_actions : var.sns_arn != null ? [var.sns_arn] : null

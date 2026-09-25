@@ -39,6 +39,35 @@ module "alarm" {
 }
 ```
 
+### Unsupported Resource Types
+
+Resource types that this module does not model explicitly can still be alarmed on by supplying `dimensions` directly:
+
+```hcl
+module "alarm" {
+  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z"
+
+  namespace   = "AWS/DynamoDB"
+  metric_name = "ThrottledRequests"
+
+  dimensions = {
+    TableName = aws_dynamodb_table.table.name
+    Operation = "PutItem"
+  }
+
+  alarm_actions = [aws_sns_topic.alarms.arn]
+  ok_actions    = [aws_sns_topic.alarms.arn]
+
+  # Tagging Parameters
+  organization = var.organization
+  environment  = var.environment
+  product      = var.product
+  repo         = var.repo
+}
+```
+
+`dimensions` is merged with the dimensions derived from the resource specific variables (e.g. `lambda_function`, `kinesis_stream`) and takes precedence on key collisions.
+
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:

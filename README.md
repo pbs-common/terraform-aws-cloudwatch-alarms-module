@@ -7,7 +7,7 @@
 Use this URL for the source of the module. See the usage examples below for more details.
 
 ```hcl
-github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.1.0
+github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -24,7 +24,7 @@ Integrate this module like so:
 
 ```hcl
 module "alarm" {
-  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=1.1.0"
+  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z"
 
   namespace       = "AWS/Lambda"
   lambda_function = aws_lambda_function.lambda.id
@@ -39,11 +39,40 @@ module "alarm" {
 }
 ```
 
+### Unsupported Resource Types
+
+Resource types that this module does not model explicitly can still be alarmed on by supplying `dimensions` directly:
+
+```hcl
+module "alarm" {
+  source = "github.com/pbs/terraform-aws-cloudwatch-alarms-module?ref=x.y.z"
+
+  namespace   = "AWS/DynamoDB"
+  metric_name = "ThrottledRequests"
+
+  dimensions = {
+    TableName = aws_dynamodb_table.table.name
+    Operation = "PutItem"
+  }
+
+  alarm_actions = [aws_sns_topic.alarms.arn]
+  ok_actions    = [aws_sns_topic.alarms.arn]
+
+  # Tagging Parameters
+  organization = var.organization
+  environment  = var.environment
+  product      = var.product
+  repo         = var.repo
+}
+```
+
+`dimensions` is merged with the dimensions derived from the resource specific variables (e.g. `lambda_function`, `kinesis_stream`) and takes precedence on key collisions.
+
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.1.0`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -66,7 +95,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.37.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.66.0 |
 
 ## Modules
 
@@ -94,6 +123,7 @@ No modules.
 | <a name="input_alarm_description"></a> [alarm\_description](#input\_alarm\_description) | Description of the alarm being created. Defaults to Alarm for {local.name} Errors (High) if null. | `string` | `null` | no |
 | <a name="input_comparison_operator"></a> [comparison\_operator](#input\_comparison\_operator) | The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold. Additionally, the values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models. | `string` | `"GreaterThanOrEqualToThreshold"` | no |
 | <a name="input_datapoints_to_alarm"></a> [datapoints\_to\_alarm](#input\_datapoints\_to\_alarm) | Datapoints to alarm. | `number` | `1` | no |
+| <a name="input_dimensions"></a> [dimensions](#input\_dimensions) | Arbitrary dimensions for the alarm's associated metric, for resource types the module does not model explicitly. Merged with (and takes precedence over) dimensions derived from the resource specific variables. | `map(string)` | `null` | no |
 | <a name="input_evaluation_periods"></a> [evaluation\_periods](#input\_evaluation\_periods) | The number of periods over which data is compared to the specified threshold. | `number` | `1` | no |
 | <a name="input_kinesis_stream"></a> [kinesis\_stream](#input\_kinesis\_stream) | Name of the Kinesis stream being monitored | `string` | `null` | no |
 | <a name="input_lambda_function"></a> [lambda\_function](#input\_lambda\_function) | Name of the Lambda function being monitored | `string` | `null` | no |
@@ -101,6 +131,7 @@ No modules.
 | <a name="input_mediatailor_configuration_name"></a> [mediatailor\_configuration\_name](#input\_mediatailor\_configuration\_name) | Name of the MediaTailor configuration being monitored | `string` | `null` | no |
 | <a name="input_metric_name"></a> [metric\_name](#input\_metric\_name) | Metric to use for this alarm. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the alarm being created. Defaults to product if null. | `string` | `null` | no |
+| <a name="input_ok_actions"></a> [ok\_actions](#input\_ok\_actions) | Actions to take when the CloudWatch Alarm transitions to the OK state. Not derived from sns\_arn; set explicitly to opt in to OK notifications. | `set(string)` | `null` | no |
 | <a name="input_period"></a> [period](#input\_period) | The period in seconds over which the specified statistic is applied. | `number` | `60` | no |
 | <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | Name of the SQS queue being monitored | `string` | `null` | no |
 | <a name="input_sns_arn"></a> [sns\_arn](#input\_sns\_arn) | SNS topic ARN associated with Lambda that handles payload delivery. | `string` | `null` | no |
