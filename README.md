@@ -95,7 +95,7 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.66.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.62.0 |
 
 ## Modules
 
@@ -131,7 +131,7 @@ No modules.
 | <a name="input_mediatailor_configuration_name"></a> [mediatailor\_configuration\_name](#input\_mediatailor\_configuration\_name) | Name of the MediaTailor configuration being monitored | `string` | `null` | no |
 | <a name="input_metric_name"></a> [metric\_name](#input\_metric\_name) | Metric to use for this alarm. | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the alarm being created. Defaults to product if null. | `string` | `null` | no |
-| <a name="input_ok_actions"></a> [ok\_actions](#input\_ok\_actions) | Actions to take when the CloudWatch Alarm transitions to the OK state. Not derived from sns\_arn; set explicitly to opt in to OK notifications. | `set(string)` | `null` | no |
+| <a name="input_ok_actions"></a> [ok\_actions](#input\_ok\_actions) | Actions to take when the CloudWatch Alarm transitions to the OK state. Set explicitly to opt in to OK notifications. | `set(string)` | `null` | no |
 | <a name="input_period"></a> [period](#input\_period) | The period in seconds over which the specified statistic is applied. | `number` | `60` | no |
 | <a name="input_queue_name"></a> [queue\_name](#input\_queue\_name) | Name of the SQS queue being monitored | `string` | `null` | no |
 | <a name="input_sns_arn"></a> [sns\_arn](#input\_sns\_arn) | SNS topic ARN associated with Lambda that handles payload delivery. | `string` | `null` | no |
